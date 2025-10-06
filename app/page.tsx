@@ -1,85 +1,62 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Card, CardContent } from "@/components/ui/card"
-import { setArtist } from "@/lib/utils/global"
-
-interface Artist {
-  id: number
-  name: string
-}
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Hero } from "@/components/landing/hero";
+import { FeaturedArtists } from "@/components/landing/featured-artists";
+import { TopArtworks } from "@/components/landing/top-artworks";
+import { AuctionWidget } from "@/components/landing/auction-widget";
+import { ArtistMap } from "@/components/landing/artist-map";
+import { CallToAction } from "@/components/landing/call-to-action";
+import { SearchBar } from "@/components/landing/search-bar";
+import { useApp } from "@/context/app-context";
 
 export default function LandingPage() {
-  const [artists, setArtists] = useState<Artist[]>([])
-  const [selectedArtist, setSelectedArtist] = useState<string>("")
-  const router = useRouter()
+  const { artists, artworks, auctions, loading } = useApp();
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
 
-  useEffect(() => {
-    fetchArtists()
-  }, [])
+  const activeAuction = auctions.find((auction) => auction.isActive);
 
-  const fetchArtists = async () => {
-    try {
-      const response = await fetch("https://jsonplaceholder.typicode.com/users")
-      const data = await response.json()
-      setArtists(data)
-    } catch (error) {
-      console.error("Failed to fetch artists:", error)
-    }
-  }
+  const trendingArtists = artists
+    .sort((a, b) => b.popularity - a.popularity)
+    .slice(0, 6);
 
-  const handleArtistSelect = (artistName: string) => {
-    setSelectedArtist(artistName)
-    setArtist(artistName)
-    router.push("/artist")
-  }
+  const topArtworks = artworks
+    .filter((artwork) => artwork.isPublished)
+    .sort((a, b) => b.views + b.likes - (a.views + a.likes))
+    .slice(0, 12);
 
-  const handleVisitorClick = () => {
-    setArtist(null)
-    router.push("/visitor")
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#A26A5E]" />
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-br from-orange-50 to-red-50">
-      {/* Logo */}
-      <div className="mb-12">
-        <div className="w-32 h-32 bg-[#A26A5E] rounded-full flex items-center justify-center mb-4">
-          <span className="text-white text-4xl font-bold">SA</span>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-white to-orange-50 dark:from-gray-900 dark:to-gray-800">
+      {/* Search Bar */}
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-      {/* Join Section */}
-      <div className="flex flex-col md:flex-row gap-8 w-full max-w-4xl">
-        {/* Artist Card */}
-        <Card className="flex-1 cursor-pointer hover:shadow-lg transition-shadow">
-          <CardContent className="p-8 text-center">
-            <h2 className="text-2xl font-bold text-[#A26A5E] mb-6">Join as Artist</h2>
-            <Select onValueChange={handleArtistSelect}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Choose an artist" />
-              </SelectTrigger>
-              <SelectContent>
-                {artists.map((artist) => (
-                  <SelectItem key={artist.id} value={artist.name}>
-                    {artist.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </CardContent>
-        </Card>
+      {/* Hero Section */}
+      <Hero />
 
-        {/* Visitor Card */}
-        <Card className="flex-1 cursor-pointer hover:shadow-lg transition-shadow" onClick={handleVisitorClick}>
-          <CardContent className="p-8 text-center">
-            <h2 className="text-2xl font-bold text-[#A26A5E] mb-6">Join as Visitor</h2>
-            <Button className="w-full bg-[#A26A5E] hover:bg-[#8B5A4E] text-white">Enter as Visitor</Button>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Active Auction Widget */}
+      {activeAuction && <AuctionWidget auction={activeAuction} />}
+
+      {/* Featured Artists */}
+      <FeaturedArtists artists={trendingArtists} />
+
+      {/* Top Artworks */}
+      <TopArtworks artworks={topArtworks} />
+
+      {/* Artist Map */}
+      <ArtistMap artists={artists} />
+
+      {/* Call to Action */}
+      <CallToAction />
     </div>
-  )
+  );
 }
