@@ -13,6 +13,7 @@ import { Palette, ArrowLeft } from "lucide-react";
 import { setArtist } from "@/lib/utils/global";
 import { getItems } from "@/lib/data";
 import Link from "next/link";
+import { Navbar } from "@/components/navbar";
 
 export default function JoinAsArtistPage() {
   const router = useRouter();
@@ -59,15 +60,17 @@ export default function JoinAsArtistPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-orange-50 dark:from-gray-900 dark:to-gray-800 py-12 px-4">
-      <div className="container mx-auto max-w-4xl">
-        <Link
-          href="/"
-          className="inline-flex items-center text-[#A26A5E] hover:text-[#8B5A4E] mb-6"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Home
-        </Link>
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-gradient-to-b from-white to-orange-50 dark:from-gray-900 dark:to-gray-800 py-12 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <Link
+            href="/"
+            className="inline-flex items-center text-[#A26A5E] hover:text-[#8B5A4E] mb-6"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Home
+          </Link>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Sign Up Form */}
@@ -233,5 +236,6 @@ export default function JoinAsArtistPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

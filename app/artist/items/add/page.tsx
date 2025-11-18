@@ -15,6 +15,7 @@ import { Camera } from "lucide-react"
 import { getItems, saveItems, itemTypes } from "@/lib/data"
 import { getArtist } from "@/lib/utils/global"
 import type { Item } from "@/types"
+import { Navbar } from "@/components/navbar"
 
 export default function AddItemPage() {
   const [formData, setFormData] = useState({
@@ -33,7 +34,7 @@ export default function AddItemPage() {
   useEffect(() => {
     const currentArtist = getArtist()
     if (!currentArtist) {
-      router.push("/")
+      router.push("/join/artist")
       return
     }
 
@@ -127,7 +128,9 @@ export default function AddItemPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 max-w-2xl">
+    <>
+      <Navbar />
+      <div className="container mx-auto p-6 max-w-2xl">
       <Card>
         <CardHeader>
           <CardTitle className="flex justify-between items-center">
@@ -235,5 +238,6 @@ export default function AddItemPage() {
         </CardContent>
       </Card>
     </div>
+    </>
   )
 }

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { setArtist } from "@/lib/utils/global"
+import { Navbar } from "@/components/navbar"
 
 const carouselData = [
   {
@@ -51,7 +52,9 @@ export default function VisitorHomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
       {/* Hero Section */}
       <div className="container mx-auto px-6 py-12">
         <div className="flex flex-col md:flex-row items-center justify-between mb-16">
@@ -161,5 +164,6 @@ export default function VisitorHomePage() {
         </div>
       </div>
     </div>
+    </>
   )
 }

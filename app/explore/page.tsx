@@ -17,6 +17,7 @@ import { getItems, itemTypes } from "@/lib/data";
 import type { Item } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Navbar } from "@/components/navbar";
 
 export default function ExplorePage() {
   const [items, setItems] = useState<Item[]>([]);
@@ -110,7 +111,9 @@ export default function ExplorePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
       <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-4">
@@ -354,5 +357,6 @@ export default function ExplorePage() {
         )}
       </div>
     </div>
+    </>
   );
 }

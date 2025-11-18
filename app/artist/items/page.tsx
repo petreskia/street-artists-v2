@@ -9,6 +9,7 @@ import { getItems, saveItems } from "@/lib/data"
 import { getArtist, setAuctionStatus } from "@/lib/utils/global"
 import { formatDate, auctionTime, startTimer } from "@/lib/utils/dates"
 import type { Item } from "@/types"
+import { Navbar } from "@/components/navbar"
 
 export default function ArtistItemsPage() {
   const [items, setItems] = useState<Item[]>([])
@@ -17,7 +18,7 @@ export default function ArtistItemsPage() {
   useEffect(() => {
     const currentArtist = getArtist()
     if (!currentArtist) {
-      router.push("/")
+      router.push("/join/artist")
       return
     }
 
@@ -81,9 +82,11 @@ export default function ArtistItemsPage() {
   }
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-[#A26A5E]">My Items</h1>
+    <>
+      <Navbar />
+      <div className="container mx-auto p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold text-[#A26A5E]">My Items</h1>
         <Button onClick={handleAddNew} className="bg-[#A26A5E] hover:bg-[#8B5A4E]">
           <Plus className="w-4 h-4 mr-2" />
           Add New Item
@@ -148,6 +151,7 @@ export default function ArtistItemsPage() {
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </>
   )
 }

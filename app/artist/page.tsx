@@ -10,6 +10,7 @@ import { getArtist, isAuctionOngoingStatus, getCurrentBid } from "@/lib/utils/gl
 import { generateDateLabels, formatDate } from "@/lib/utils/dates"
 import { useRouter } from "next/navigation"
 import type { Item } from "@/types"
+import { Navbar } from "@/components/navbar"
 
 export default function ArtistHomePage() {
   const [items, setItems] = useState<Item[]>([])
@@ -25,7 +26,7 @@ export default function ArtistHomePage() {
   useEffect(() => {
     const currentArtist = getArtist()
     if (!currentArtist) {
-      router.push("/")
+      router.push("/join/artist")
       return
     }
 
@@ -64,7 +65,9 @@ export default function ArtistHomePage() {
   const currentBid = getCurrentBid()
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <>
+      <Navbar />
+      <div className="container mx-auto p-6 space-y-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card>
@@ -158,5 +161,6 @@ export default function ArtistHomePage() {
         </CardContent>
       </Card>
     </div>
+    </>
   )
 }

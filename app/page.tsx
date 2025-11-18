@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Hero } from "@/components/landing/hero";
 import { FeaturedArtists } from "@/components/landing/featured-artists";
@@ -15,6 +15,14 @@ export default function LandingPage() {
   const { artists, artworks, auctions, loading } = useApp();
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
+
+  // Redirect logged-in artists to their dashboard
+  useEffect(() => {
+    const currentArtist = localStorage.getItem("currentArtist");
+    if (currentArtist) {
+      router.push("/artist");
+    }
+  }, [router]);
 
   const activeAuction = auctions.find((auction) => auction.isActive);
 

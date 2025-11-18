@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Eye, Heart, Hammer, ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { Navbar } from "@/components/navbar";
 
 export default function JoinAsVisitorPage() {
   const router = useRouter();
@@ -19,7 +20,9 @@ export default function JoinAsVisitorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-orange-50 dark:from-gray-900 dark:to-gray-800 py-12 px-4">
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-gradient-to-b from-white to-orange-50 dark:from-gray-900 dark:to-gray-800 py-12 px-4">
       <div className="container mx-auto max-w-5xl">
         <Link
           href="/"
@@ -163,5 +166,6 @@ export default function JoinAsVisitorPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
